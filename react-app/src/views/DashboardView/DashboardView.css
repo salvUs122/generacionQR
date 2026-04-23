@@ -1,0 +1,71 @@
+.dashboard {
+  animation: fade-up 0.3s ease;
+}
+
+.dashboard__header {
+  border-radius: 24px;
+  padding: 22px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #d6e7ef;
+}
+
+.dashboard__header h1 {
+  margin: 0;
+  color: #0f4c5f;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+}
+
+.dashboard__header p {
+  margin: 8px 0 0;
+  color: #36667a;
+}
+
+.cards-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.info-card {
+  border-radius: 18px;
+  padding: 18px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #d6e7ef;
+  box-shadow: 0 14px 24px -14px rgba(0, 44, 74, 0.32);
+}
+
+.info-card h2 {
+  margin: 0;
+  color: #113f52;
+  font-size: 1.08rem;
+}
+
+.info-card p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: #446b7b;
+}
+
+.detail-value {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #f4fbfe;
+  color: #194f63;
+  border-left: 4px solid #2c8eaa;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

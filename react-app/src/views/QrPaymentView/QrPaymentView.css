@@ -1,0 +1,156 @@
+.qr-view {
+  animation: fade-up 0.3s ease;
+}
+
+.qr-view__header {
+  text-align: left;
+}
+
+.qr-view__title {
+  margin: 0;
+  font-size: 2rem;
+  color: #0f4c5f;
+}
+
+.qr-view__subtitle {
+  margin-top: 8px;
+  color: #36667a;
+}
+
+.payment-card {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  border: 1px solid #d6e7ef;
+  border-radius: 22px;
+  padding: 20px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.payment-card__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 320px;
+  background: #f6fbfe;
+  border: 1px solid #d6e8f1;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.payment-card__selector h2 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: #0f4c5f;
+}
+
+.debt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.debt-item {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #d6e8f1;
+  border-radius: 12px;
+  padding: 10px;
+  background: #f8fbfd;
+}
+
+.debt-item input {
+  width: 16px;
+  height: 16px;
+}
+
+.debt-item__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.debt-item__text span {
+  font-size: 0.8rem;
+  color: #567787;
+}
+
+.payment-card__total {
+  margin: 12px 0 0;
+  border-radius: 12px;
+  padding: 10px;
+  background: #e6f3f8;
+  color: #184e62;
+}
+
+.payment-card__button {
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 14px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: #0f4c5f;
+  cursor: pointer;
+}
+
+.payment-card__button:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.payment-card__actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.payment-card__button--success {
+  background: #1f8f56;
+}
+
+.qr-view__error {
+  margin: 0;
+  color: #b82f2f;
+  text-align: left;
+}
+
+.payment-card__placeholder {
+  margin: 0;
+  color: #527281;
+  font-size: 0.92rem;
+  text-align: center;
+}
+
+.payment-card__reference {
+  margin: 0;
+  padding: 8px;
+  border-radius: 10px;
+  background: #e6f3f8;
+  color: #184e62;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .payment-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
