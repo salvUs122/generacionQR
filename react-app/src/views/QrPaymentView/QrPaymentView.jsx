@@ -185,7 +185,7 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment, boli
 
         <div className="payment-card__qr">
           {qrImage ? (
-            <img src={qrImage} alt="Codigo QR de pago" width="280" height="280" />
+            <img className="payment-card__qr-image" src={qrImage} alt="Codigo QR de pago" />
           ) : (
             <div className="payment-card__placeholder">
               Selecciona deudas y genera el QR para iniciar el pago.

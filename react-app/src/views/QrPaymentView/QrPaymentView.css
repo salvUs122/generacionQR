@@ -1,11 +1,14 @@
 .qr-view {
+  width: 100%;
+  display: grid;
+  gap: clamp(12px, 1.4vw, 18px);
   animation: fade-up 0.3s ease;
 }
 
 .qr-view__header {
   border: 1px solid #d4e7f1;
   border-radius: 26px;
-  padding: 20px;
+  padding: clamp(16px, 2vw, 24px);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(242, 250, 254, 0.95));
   box-shadow: 0 20px 34px -24px rgba(0, 44, 74, 0.4);
   text-align: left;
@@ -13,7 +16,7 @@
 
 .qr-view__title {
   margin: 0;
-  font-size: 2rem;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
   color: #0f4c5f;
 }
 
@@ -24,7 +27,7 @@
 
 .payment-card {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
   gap: 18px;
   border: 1px solid #d3e7f0;
   border-radius: 24px;
@@ -45,6 +48,11 @@
   border: 1px solid #d6e9f2;
   border-radius: 16px;
   padding: 12px;
+}
+
+.payment-card__qr-image {
+  width: min(100%, 280px);
+  height: auto;
 }
 
 .payment-card__selector-head {
@@ -209,7 +217,6 @@
 }
 
 .history-card {
-  margin-top: 14px;
   border: 1px solid #d3e7f0;
   border-radius: 24px;
   padding: 18px;
@@ -280,9 +287,16 @@
   color: #527281;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
   .payment-card {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .payment-card__qr {
+    min-height: 0;
+    padding: 14px;
   }
 
   .history-item {

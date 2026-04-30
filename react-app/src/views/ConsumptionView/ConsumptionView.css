@@ -1,10 +1,13 @@
 .consumption-view {
+  width: 100%;
+  display: grid;
+  gap: clamp(12px, 1.4vw, 18px);
   animation: fade-up 0.3s ease;
 }
 
 .consumption-view__header {
   border-radius: 26px;
-  padding: 22px;
+  padding: clamp(16px, 2vw, 24px);
   text-align: left;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 250, 254, 0.95));
   border: 1px solid #d3e7f0;
@@ -23,7 +26,6 @@
 }
 
 .consumption-view__filters {
-  margin-top: 14px;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
@@ -46,9 +48,8 @@
 }
 
 .consumption-summary {
-  margin-top: 12px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 10px;
 }
 
@@ -72,7 +73,6 @@
 }
 
 .consumption-list {
-  margin-top: 14px;
   display: grid;
   gap: 12px;
 }

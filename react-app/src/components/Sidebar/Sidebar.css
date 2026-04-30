@@ -1,5 +1,5 @@
 .sidebar {
-  width: 280px;
+  width: clamp(250px, 21vw, 320px);
   border: 1px solid #d2e6f1;
   border-radius: 26px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(241, 249, 253, 0.95));

@@ -1,10 +1,13 @@
 .dashboard {
+  width: 100%;
+  display: grid;
+  gap: clamp(12px, 1.4vw, 18px);
   animation: fade-up 0.3s ease;
 }
 
 .dashboard__header {
   border-radius: 26px;
-  padding: 24px;
+  padding: clamp(16px, 2vw, 26px);
   text-align: left;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 250, 254, 0.95));
   border: 1px solid #d3e6f0;
@@ -55,9 +58,8 @@
 }
 
 .cards-grid {
-  margin-top: 18px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 16px;
 }
 
