@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --text: #1f3f4d;
+  --text: #1e3e4c;
   --text-soft: #4a7080;
-  --bg-start: #d4e9f7;
-  --bg-end: #c2e0f0;
+  --bg-start: #d3e9f7;
+  --bg-end: #b8deef;
   --border: #d6e8f1;
   --card: rgba(255, 255, 255, 0.95);
   --primary: #0f4c5f;
@@ -27,11 +27,22 @@ body {
   background:
     radial-gradient(circle at 10% 10%, rgba(140, 194, 220, 0.45), transparent 34%),
     radial-gradient(circle at 85% 10%, rgba(88, 142, 170, 0.24), transparent 28%),
-    linear-gradient(145deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    radial-gradient(circle at 90% 90%, rgba(112, 181, 213, 0.2), transparent 28%),
+    linear-gradient(150deg, var(--bg-start) 0%, var(--bg-end) 100%);
 }
 
 #root {
   min-height: 100vh;
+}
+
+button {
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+button:hover {
+  filter: saturate(1.04);
 }
 
 h1,

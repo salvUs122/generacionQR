@@ -1,11 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { Sidebar } from './components/Sidebar/Sidebar'
 import { QrPaymentView } from './views/QrPaymentView/QrPaymentView'
 import { DashboardView } from './views/DashboardView/DashboardView'
 import { LandingView } from './views/LandingView/LandingView'
 import { LoginView } from './views/LoginView/LoginView'
-import { loginWithMockCredentials, mockDebts, mockProfile } from './services/mockPortalApi'
+import { ConsumptionView } from './views/ConsumptionView/ConsumptionView'
+import { loadAccountPortfolio, loginWithMockCredentials } from './services/mockPortalApi'
+import { getReleasedPendingDebtIds } from './utils/debtReleaseRules'
 
 const currencyFormatter = new Intl.NumberFormat('es-BO', {
   style: 'currency',
@@ -16,50 +18,69 @@ function App() {
   const [step, setStep] = useState('landing')
   const [activeView, setActiveView] = useState('dashboard')
   const [session, setSession] = useState(null)
-  const [debts, setDebts] = useState(mockDebts)
+  const [profile, setProfile] = useState(null)
+  const [debts, setDebts] = useState([])
+  const [boliviaNow, setBoliviaNow] = useState(() => new Date().toISOString())
 
-  const totals = useMemo(() => {
-    const pendingTotal = debts
-      .filter((debt) => debt.status === 'pending')
-      .reduce((acc, debt) => acc + debt.amount, 0)
-    const paidTotal = debts
-      .filter((debt) => debt.status === 'paid')
-      .reduce((acc, debt) => acc + debt.amount, 0)
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setBoliviaNow(new Date().toISOString())
+    }, 1000)
 
-    return {
-      pendingTotal,
-      paidTotal,
-      pendingCount: debts.filter((debt) => debt.status === 'pending').length,
-      paidCount: debts.filter((debt) => debt.status === 'paid').length,
+    return () => {
+      clearInterval(timerId)
     }
-  }, [debts])
+  }, [])
+
+  const pendingDebts = useMemo(
+    () =>
+      debts
+        .filter((debt) => debt.status === 'pending')
+        .sort((left, right) => new Date(left.dueAt).getTime() - new Date(right.dueAt).getTime()),
+    [debts],
+  )
 
   const handleLogin = async (credentials) => {
     const nextSession = await loginWithMockCredentials(credentials)
+    const portfolio = await loadAccountPortfolio(nextSession.accountCode)
+
     setSession(nextSession)
+    setProfile(portfolio.profile)
+    setDebts(portfolio.debts)
     setStep('portal')
     setActiveView('dashboard')
   }
 
   const handleLogout = () => {
     setSession(null)
+    setProfile(null)
+    setDebts([])
     setStep('login')
     setActiveView('dashboard')
   }
 
   const handleConfirmPayment = (selectedIds) => {
     const paidAt = new Date().toISOString()
-    setDebts((prev) =>
-      prev.map((debt) =>
-        selectedIds.includes(debt.id)
+    setDebts((prev) => {
+      const releasedPendingIds = getReleasedPendingDebtIds(prev)
+      const selectedReleasedIds = new Set(
+        selectedIds.filter((id) => releasedPendingIds.has(id)),
+      )
+
+      if (!selectedReleasedIds.size) {
+        return prev
+      }
+
+      return prev.map((debt) =>
+        selectedReleasedIds.has(debt.id)
           ? {
               ...debt,
               status: 'paid',
               paidAt,
             }
           : debt,
-      ),
-    )
+      )
+    })
   }
 
   if (step === 'landing') {
@@ -76,23 +97,27 @@ function App() {
         activeView={activeView}
         onChangeView={setActiveView}
         onLogout={handleLogout}
-        profileName={session?.fullName ?? mockProfile.fullName}
+        profileName={session?.fullName ?? profile?.fullName ?? 'Cliente'}
       />
 
       <section className="content">
         {activeView === 'dashboard' ? (
           <DashboardView
-            profile={session ?? mockProfile}
-            debts={debts}
-            totals={totals}
+            profile={profile ?? session}
+            pendingDebts={pendingDebts}
             currencyFormatter={currencyFormatter}
+            boliviaNow={boliviaNow}
           />
+        ) : null}
+        {activeView === 'consumption' ? (
+          <ConsumptionView debts={debts} currencyFormatter={currencyFormatter} />
         ) : null}
         {activeView === 'qr' ? (
           <QrPaymentView
             debts={debts}
             currencyFormatter={currencyFormatter}
             onConfirmPayment={handleConfirmPayment}
+            boliviaNow={boliviaNow}
           />
         ) : null}
       </section>

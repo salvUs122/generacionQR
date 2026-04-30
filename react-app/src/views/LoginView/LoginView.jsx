@@ -39,55 +39,59 @@ export function LoginView({ onLogin, onBack }) {
     <main className="login-page">
       <section className="login-card">
         <div className="login-card__header">
-          <p className="login-card__tag">Portal de cliente</p>
-          <h1>Ingresa a tu cuenta</h1>
+          <p className="login-card__tag">Portal electrico</p>
+          <h1>Ingresa a tu cuenta de energia</h1>
           <p>Usa Codigo de Cuenta, CI y Fecha de Nacimiento.</p>
         </div>
 
-        <form className="login-form" onSubmit={onSubmit}>
-          <label className="login-field">
-            Codigo de Cuenta
-            <input
-              type="text"
-              value={form.accountCode}
-              onChange={onChange('accountCode')}
-              placeholder="0000"
-              autoComplete="off"
-            />
-          </label>
+        <div className="login-card__body">
+          <form className="login-form" onSubmit={onSubmit}>
+            <label className="login-field">
+              Codigo de Cuenta
+              <input
+                type="text"
+                value={form.accountCode}
+                onChange={onChange('accountCode')}
+                placeholder="0000"
+                autoComplete="off"
+              />
+            </label>
 
-          <label className="login-field">
-            Cedula de Identidad (CI)
-            <input
-              type="text"
-              value={form.ci}
-              onChange={onChange('ci')}
-              placeholder="Ej: 12345678"
-              autoComplete="off"
-            />
-          </label>
+            <label className="login-field">
+              Cedula de Identidad (CI)
+              <input
+                type="text"
+                value={form.ci}
+                onChange={onChange('ci')}
+                placeholder="Ej: 12345678"
+                autoComplete="off"
+              />
+            </label>
 
-          <label className="login-field">
-            Fecha de Nacimiento
-            <input
-              type="text"
-              value={form.birthDate}
-              onChange={onChange('birthDate')}
-              placeholder="dd/mm/aaaa"
-              autoComplete="off"
-            />
-          </label>
+            <label className="login-field">
+              Fecha de Nacimiento
+              <input
+                type="text"
+                value={form.birthDate}
+                onChange={onChange('birthDate')}
+                placeholder="dd/mm/aaaa"
+                autoComplete="off"
+              />
+            </label>
 
-          {errorMessage ? <p className="login-error">{errorMessage}</p> : null}
+            {errorMessage ? <p className="login-error">{errorMessage}</p> : null}
 
-          <button className="login-submit" type="submit" disabled={submitting}>
-            {submitting ? 'Validando...' : 'Ingresar'}
-          </button>
-          <button className="login-back" type="button" onClick={onBack}>
-            Volver
-          </button>
-          <p className="login-hint">paga tus facturas</p>
-        </form>
+            <div className="login-actions">
+              <button className="login-submit" type="submit" disabled={submitting}>
+                {submitting ? 'Validando...' : 'Ingresar'}
+              </button>
+              <button className="login-back" type="button" onClick={onBack}>
+                Volver
+              </button>
+            </div>
+            <p className="login-hint">Controla tu consumo y pagos de electricidad</p>
+          </form>
+        </div>
       </section>
     </main>
   )

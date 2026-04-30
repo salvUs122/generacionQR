@@ -1,22 +1,35 @@
 import { useMemo, useState } from 'react'
 import QRCode from 'qrcode'
+import { formatBoliviaDate, formatBoliviaDateTime } from '../../utils/boliviaDateTime'
+import { getReleasedPendingDebtIds } from '../../utils/debtReleaseRules'
 import './QrPaymentView.css'
 
-export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment }) {
+export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment, boliviaNow }) {
   const [selectedIds, setSelectedIds] = useState([])
   const [qrImage, setQrImage] = useState('')
   const [paymentReference, setPaymentReference] = useState('')
+  const [qrIssuedAt, setQrIssuedAt] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
   const pendingDebts = useMemo(
-    () => debts.filter((debt) => debt.status === 'pending'),
+    () =>
+      debts
+        .filter((debt) => debt.status === 'pending')
+        .sort(
+          (left, right) => new Date(right.periodEnd).getTime() - new Date(left.periodEnd).getTime(),
+        ),
     [debts],
   )
 
+  const releasedPendingIds = useMemo(() => getReleasedPendingDebtIds(debts), [debts])
+
   const selectedDebts = useMemo(
-    () => pendingDebts.filter((debt) => selectedIds.includes(debt.id)),
-    [pendingDebts, selectedIds],
+    () =>
+      pendingDebts.filter(
+        (debt) => selectedIds.includes(debt.id) && releasedPendingIds.has(debt.id),
+      ),
+    [pendingDebts, selectedIds, releasedPendingIds],
   )
 
   const selectedTotal = useMemo(
@@ -24,9 +37,20 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment }) {
     [selectedDebts],
   )
 
+  const paymentHistory = useMemo(
+    () =>
+      debts
+        .filter((debt) => debt.status === 'paid' && debt.paidAt)
+        .sort((left, right) => new Date(right.paidAt).getTime() - new Date(left.paidAt).getTime()),
+    [debts],
+  )
+
   const toggleDebt = (debtId) => {
+    if (!releasedPendingIds.has(debtId)) return
+
     setQrImage('')
     setPaymentReference('')
+    setQrIssuedAt('')
     setErrorMessage('')
     setSelectedIds((prev) =>
       prev.includes(debtId) ? prev.filter((id) => id !== debtId) : [...prev, debtId],
@@ -43,15 +67,17 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment }) {
     setErrorMessage('')
 
     try {
-      const reference = `PAGO-${Date.now()}`
+      const reference = `ELEC-${Date.now()}`
       const qrPayload = {
-        accountCode: '1234',
-        source: 'demo-app',
+        source: 'portal-electrico',
+        generatedAtBolivia: formatBoliviaDateTime(boliviaNow),
         reference,
         total: selectedTotal,
         debts: selectedDebts.map((debt) => ({
           id: debt.id,
           concept: debt.concept,
+          month: debt.month,
+          consumptionKwh: debt.consumptionKwh,
           amount: debt.amount,
         })),
       }
@@ -62,6 +88,7 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment }) {
       })
 
       setPaymentReference(reference)
+      setQrIssuedAt(formatBoliviaDateTime(boliviaNow))
       setQrImage(dataUrl)
     } catch (error) {
       const message =
@@ -74,40 +101,64 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment }) {
 
   const confirmPayment = () => {
     if (!selectedDebts.length) return
-    onConfirmPayment(selectedIds)
+    onConfirmPayment(selectedDebts.map((debt) => debt.id))
     setSelectedIds([])
     setQrImage('')
     setPaymentReference('')
+    setQrIssuedAt('')
   }
 
   return (
     <section className="qr-view">
       <header className="qr-view__header">
-        <h1 className="qr-view__title">Pagar deuda con QR</h1>
+        <h1 className="qr-view__title">Pago QR de energia electrica</h1>
         <p className="qr-view__subtitle">
-          Selecciona montos pendientes, genera el QR y luego confirma el pago.
+          Selecciona consumos pendientes de electricidad y genera un QR unico.
         </p>
+        <p className="qr-view__subtitle">Hora Bolivia: {formatBoliviaDateTime(boliviaNow)}</p>
       </header>
 
       <section className="payment-card">
         <div className="payment-card__selector">
-          <h2>Deudas disponibles</h2>
+          <div className="payment-card__selector-head">
+            <h2>Deudas electricas disponibles</h2>
+            <span>{selectedDebts.length} seleccionadas</span>
+          </div>
+
+          <div className="payment-card__summary">
+            <p>Solo se libera una deuda si los 2 pagos anteriores estan pagados.</p>
+            <strong>{currencyFormatter.format(selectedTotal)}</strong>
+          </div>
+
           <div className="debt-list">
             {pendingDebts.length ? (
-              pendingDebts.map((debt) => (
-                <label className="debt-item" key={debt.id}>
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.includes(debt.id)}
-                    onChange={() => toggleDebt(debt.id)}
-                  />
-                  <span className="debt-item__text">
-                    <strong>{debt.concept}</strong>
-                    <span>{debt.month}</span>
-                  </span>
-                  <strong>{currencyFormatter.format(debt.amount)}</strong>
-                </label>
-              ))
+              pendingDebts.map((debt) => {
+                const isReleased = releasedPendingIds.has(debt.id)
+
+                return (
+                  <label className={`debt-item ${isReleased ? '' : 'debt-item--locked'}`} key={debt.id}>
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(debt.id) && isReleased}
+                      disabled={!isReleased}
+                      onChange={() => toggleDebt(debt.id)}
+                    />
+                    <span className="debt-item__text">
+                      <strong>{debt.concept}</strong>
+                      <span>
+                        {debt.month} - {debt.consumptionKwh} kWh
+                      </span>
+                      <span className="debt-item__due">Vence: {formatBoliviaDate(debt.dueAt)}</span>
+                      {!isReleased ? (
+                        <span className="debt-item__lock">
+                          Bloqueada hasta que los 2 pagos anteriores esten pagados.
+                        </span>
+                      ) : null}
+                    </span>
+                    <strong>{currencyFormatter.format(debt.amount)}</strong>
+                  </label>
+                )
+              })
             ) : (
               <p className="payment-card__placeholder">No hay deudas pendientes.</p>
             )}
@@ -127,7 +178,7 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment }) {
               disabled={!qrImage || !selectedDebts.length}
               onClick={confirmPayment}
             >
-              Simular pago confirmado
+              Confirmar pago
             </button>
           </div>
         </div>
@@ -136,12 +187,37 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment }) {
           {qrImage ? (
             <img src={qrImage} alt="Codigo QR de pago" width="280" height="280" />
           ) : (
-            <div className="payment-card__placeholder">Selecciona deudas y genera el QR.</div>
+            <div className="payment-card__placeholder">
+              Selecciona deudas y genera el QR para iniciar el pago.
+            </div>
           )}
           {paymentReference ? (
             <p className="payment-card__reference">Referencia: {paymentReference}</p>
           ) : null}
+          {qrIssuedAt ? <p className="payment-card__reference">Generado: {qrIssuedAt}</p> : null}
         </div>
+      </section>
+
+      <section className="history-card">
+        <h2>Historial de pagos</h2>
+        {paymentHistory.length ? (
+          <div className="history-list">
+            {paymentHistory.map((item) => (
+              <article className="history-item" key={item.id}>
+                <div>
+                  <strong>{item.concept}</strong>
+                  <p>{item.month}</p>
+                </div>
+                <div>
+                  <strong>{currencyFormatter.format(item.amount)}</strong>
+                  <p>Pagado: {formatBoliviaDateTime(item.paidAt)}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="history-empty">Aun no hay pagos confirmados.</p>
+        )}
       </section>
 
       {errorMessage ? <p className="qr-view__error">{errorMessage}</p> : null}

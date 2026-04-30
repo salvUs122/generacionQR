@@ -2,10 +2,10 @@
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
-  gap: 24px;
-  width: min(1220px, 100%);
+  gap: 20px;
+  width: min(1280px, 100%);
   margin: 0 auto;
-  padding: 24px;
+  padding: 22px;
   box-sizing: border-box;
 }
 
@@ -14,12 +14,12 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 18px;
 }
 
 @media (max-width: 768px) {
   .app {
     flex-direction: column;
-    padding: 16px;
+    padding: 14px;
   }
 }

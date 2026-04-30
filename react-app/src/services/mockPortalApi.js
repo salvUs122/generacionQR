@@ -1,66 +1,84 @@
-const VALID_CREDENTIALS = [
-  { accountCode: '1234', ci: '87654321', birthDate: '15/07/1990' },
-  { accountCode: '0000', ci: '12345678', birthDate: '01/01/1990' },
-  { accountCode: '5678', ci: '11223344', birthDate: '22/05/1985' },
-]
+const PORTAL_DATA_URL = '/mock-api/portal-data.json'
 
-export const mockProfile = {
-  fullName: 'Sofia Mercado Rivas',
-  neighborhood: 'Zona demo',
-  accountCode: '1234',
+let portalDataPromise
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value))
 }
 
-export const mockDebts = [
-  {
-    id: 'debt-032026',
-    concept: 'Consumo Marzo 2026',
-    month: 'Marzo 2026',
-    amount: 12450,
-    status: 'pending',
-  },
-  {
-    id: 'debt-042026',
-    concept: 'Consumo Abril 2026',
-    month: 'Abril 2026',
-    amount: 13820,
-    status: 'pending',
-  },
-  {
-    id: 'debt-012026',
-    concept: 'Aporte redes nuevas',
-    month: 'Enero 2026',
-    amount: 8200,
-    status: 'pending',
-  },
-  {
-    id: 'debt-112025',
-    concept: 'Consumo Noviembre 2025',
-    month: 'Noviembre 2025',
-    amount: 10990,
-    status: 'paid',
-    paidAt: '2026-01-12T13:00:00.000Z',
-  },
-]
+function normalizeText(text) {
+  return String(text ?? '').trim()
+}
+
+async function getPortalData() {
+  if (!portalDataPromise) {
+    portalDataPromise = fetch(PORTAL_DATA_URL).then(async (response) => {
+      if (!response.ok) {
+        throw new Error('No se pudo cargar los datos JSON del portal.')
+      }
+      return response.json()
+    })
+  }
+  return portalDataPromise
+}
+
+function sortDebtsByLatestPeriod(debts) {
+  return [...debts].sort(
+    (left, right) => new Date(right.periodEnd).getTime() - new Date(left.periodEnd).getTime(),
+  )
+}
 
 export async function loginWithMockCredentials({ accountCode, ci, birthDate }) {
   await new Promise((resolve) => {
-    setTimeout(resolve, 350)
+    setTimeout(resolve, 280)
   })
 
-  const valid = VALID_CREDENTIALS.some(
-    (item) =>
-      item.accountCode === accountCode && item.ci === ci && item.birthDate === birthDate,
+  const normalized = {
+    accountCode: normalizeText(accountCode),
+    ci: normalizeText(ci),
+    birthDate: normalizeText(birthDate),
+  }
+
+  const portalData = await getPortalData()
+  const validCredentials = portalData.credentials.some(
+    (credential) =>
+      credential.accountCode === normalized.accountCode &&
+      credential.ci === normalized.ci &&
+      credential.birthDate === normalized.birthDate,
   )
 
-  if (!valid) {
-    throw new Error('Datos incorrectos. Revisa codigo, CI o fecha.')
+  if (!validCredentials) {
+    throw new Error('Datos incorrectos. Revisa codigo de cuenta, CI o fecha de nacimiento.')
+  }
+
+  const account = portalData.accounts.find((item) => item.accountCode === normalized.accountCode)
+  if (!account) {
+    throw new Error('No se encontro informacion para esta cuenta electrica.')
   }
 
   return {
-    ...mockProfile,
-    accountCode,
-    ci,
-    birthDate,
+    ...clone(account.profile),
+    accountCode: normalized.accountCode,
+    ci: normalized.ci,
+    birthDate: normalized.birthDate,
     loginAt: new Date().toISOString(),
+  }
+}
+
+export async function loadAccountPortfolio(accountCode) {
+  const portalData = await getPortalData()
+  const normalizedAccountCode = normalizeText(accountCode)
+
+  const account = portalData.accounts.find((item) => item.accountCode === normalizedAccountCode)
+  if (!account) {
+    throw new Error('No se pudo cargar la cartera de deudas del cliente.')
+  }
+
+  return {
+    profile: {
+      ...clone(account.profile),
+      accountCode: normalizedAccountCode,
+    },
+    debts: sortDebtsByLatestPeriod(clone(account.debts)),
   }
 }

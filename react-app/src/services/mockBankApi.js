@@ -1,12 +1,21 @@
-const MOCK_MERCHANT = {
-  merchantName: 'Comercio Demo S.A. de C.V.',
-  merchantAccount: '646180157012345678',
-}
+const BANK_CONFIG_URL = '/mock-api/bank-config.json'
 
-const MOCK_AMOUNT_OPTIONS = [129.5, 240, 389.99, 525, 1120.45]
+let bankConfigPromise
 
 function randomPick(values) {
   return values[Math.floor(Math.random() * values.length)]
+}
+
+async function getBankConfig() {
+  if (!bankConfigPromise) {
+    bankConfigPromise = fetch(BANK_CONFIG_URL).then(async (response) => {
+      if (!response.ok) {
+        throw new Error('No se pudo cargar la configuracion JSON bancaria.')
+      }
+      return response.json()
+    })
+  }
+  return bankConfigPromise
 }
 
 function buildBankQrPayload(payment) {
@@ -22,16 +31,18 @@ function buildBankQrPayload(payment) {
 }
 
 export async function createMockQrPayment() {
+  const bankConfig = await getBankConfig()
   const issuedAt = Date.now()
-  const amount = randomPick(MOCK_AMOUNT_OPTIONS)
+  const amount = randomPick(bankConfig.amountOptions)
   const reference = `QR-${issuedAt}-${Math.floor(Math.random() * 1000)}`
 
   const payment = {
-    ...MOCK_MERCHANT,
+    merchantName: bankConfig.merchantName,
+    merchantAccount: bankConfig.merchantAccount,
     amount,
-    currency: 'MXN',
+    currency: bankConfig.currency,
     reference,
-    expiresAt: new Date(issuedAt + 5 * 60 * 1000).toISOString(),
+    expiresAt: new Date(issuedAt + bankConfig.expiresInMinutes * 60 * 1000).toISOString(),
   }
 
   return new Promise((resolve) => {

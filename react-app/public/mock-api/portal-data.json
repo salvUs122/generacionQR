@@ -1,0 +1,278 @@
+{
+  "credentials": [
+    {
+      "accountCode": "1234",
+      "ci": "87654321",
+      "birthDate": "15/07/1990"
+    },
+    {
+      "accountCode": "0000",
+      "ci": "12345678",
+      "birthDate": "01/01/1990"
+    },
+    {
+      "accountCode": "5678",
+      "ci": "11223344",
+      "birthDate": "22/05/1985"
+    }
+  ],
+  "accounts": [
+    {
+      "accountCode": "1234",
+      "profile": {
+        "fullName": "Sofia Mercado Rivas",
+        "neighborhood": "Zona Sur - La Paz",
+        "serviceType": "Energia electrica residencial"
+      },
+      "debts": [
+        {
+          "id": "debt-2026-04",
+          "concept": "Consumo (Abril 2026)",
+          "month": "Abril 2026",
+          "periodStart": "2026-03-21T04:00:00.000Z",
+          "periodEnd": "2026-04-20T03:59:59.000Z",
+          "issuedAt": "2026-04-21T15:00:00.000Z",
+          "dueAt": "2026-05-06T03:59:59.000Z",
+          "meterStart": 18240,
+          "meterEnd": 18632,
+          "consumptionKwh": 392,
+          "tariffPerKwh": 0.89,
+          "fixedCharge": 18.5,
+          "publicLightingCharge": 9.8,
+          "amount": 377.18,
+          "status": "pending"
+        },
+        {
+          "id": "debt-2026-03",
+          "concept": "Consumo (Marzo 2026)",
+          "month": "Marzo 2026",
+          "periodStart": "2026-02-21T04:00:00.000Z",
+          "periodEnd": "2026-03-20T03:59:59.000Z",
+          "issuedAt": "2026-03-21T15:00:00.000Z",
+          "dueAt": "2026-04-05T03:59:59.000Z",
+          "meterStart": 17888,
+          "meterEnd": 18240,
+          "consumptionKwh": 352,
+          "tariffPerKwh": 0.86,
+          "fixedCharge": 18.5,
+          "publicLightingCharge": 9.2,
+          "amount": 330.42,
+          "status": "pending"
+        },
+        {
+          "id": "debt-2026-02",
+          "concept": "Consumo (Febrero 2026)",
+          "month": "Febrero 2026",
+          "periodStart": "2026-01-21T04:00:00.000Z",
+          "periodEnd": "2026-02-20T03:59:59.000Z",
+          "issuedAt": "2026-02-21T15:00:00.000Z",
+          "dueAt": "2026-03-08T03:59:59.000Z",
+          "meterStart": 17555,
+          "meterEnd": 17888,
+          "consumptionKwh": 333,
+          "tariffPerKwh": 0.83,
+          "fixedCharge": 18.5,
+          "publicLightingCharge": 8.8,
+          "amount": 303.69,
+          "status": "pending"
+        },
+        {
+          "id": "debt-2026-01",
+          "concept": "Consumo (Enero 2026)",
+          "month": "Enero 2026",
+          "periodStart": "2025-12-21T04:00:00.000Z",
+          "periodEnd": "2026-01-20T03:59:59.000Z",
+          "issuedAt": "2026-01-21T15:00:00.000Z",
+          "dueAt": "2026-02-05T03:59:59.000Z",
+          "meterStart": 17280,
+          "meterEnd": 17555,
+          "consumptionKwh": 275,
+          "tariffPerKwh": 0.78,
+          "fixedCharge": 18.5,
+          "publicLightingCharge": 7.9,
+          "amount": 240.9,
+          "status": "pending"
+        },
+        {
+          "id": "debt-2025-12",
+          "concept": "Consumo (Diciembre 2025)",
+          "month": "Diciembre 2025",
+          "periodStart": "2025-11-21T04:00:00.000Z",
+          "periodEnd": "2025-12-20T03:59:59.000Z",
+          "issuedAt": "2025-12-21T15:00:00.000Z",
+          "dueAt": "2026-01-05T03:59:59.000Z",
+          "meterStart": 17005,
+          "meterEnd": 17280,
+          "consumptionKwh": 275,
+          "tariffPerKwh": 0.76,
+          "fixedCharge": 18.5,
+          "publicLightingCharge": 7.6,
+          "amount": 235.1,
+          "status": "paid",
+          "paidAt": "2026-01-03T13:42:00.000Z"
+        },
+        {
+          "id": "debt-2025-11",
+          "concept": "Consumo (Noviembre 2025)",
+          "month": "Noviembre 2025",
+          "periodStart": "2025-10-21T04:00:00.000Z",
+          "periodEnd": "2025-11-20T03:59:59.000Z",
+          "issuedAt": "2025-11-21T15:00:00.000Z",
+          "dueAt": "2025-12-06T03:59:59.000Z",
+          "meterStart": 16720,
+          "meterEnd": 17005,
+          "consumptionKwh": 285,
+          "tariffPerKwh": 0.74,
+          "fixedCharge": 18.5,
+          "publicLightingCharge": 7.4,
+          "amount": 236.8,
+          "status": "paid",
+          "paidAt": "2025-12-04T16:08:00.000Z"
+        }
+      ]
+    },
+    {
+      "accountCode": "0000",
+      "profile": {
+        "fullName": "Marco Quispe Condori",
+        "neighborhood": "Cota Cota - La Paz",
+        "serviceType": "Energia electrica residencial"
+      },
+      "debts": [
+        {
+          "id": "debt-0000-2026-04",
+          "concept": "Consumo (Abril 2026)",
+          "month": "Abril 2026",
+          "periodStart": "2026-03-21T04:00:00.000Z",
+          "periodEnd": "2026-04-20T03:59:59.000Z",
+          "issuedAt": "2026-04-21T15:00:00.000Z",
+          "dueAt": "2026-05-06T03:59:59.000Z",
+          "meterStart": 9950,
+          "meterEnd": 10225,
+          "consumptionKwh": 275,
+          "tariffPerKwh": 0.84,
+          "fixedCharge": 17.9,
+          "publicLightingCharge": 7.8,
+          "amount": 256.7,
+          "status": "pending"
+        },
+        {
+          "id": "debt-0000-2026-03",
+          "concept": "Consumo (Marzo 2026)",
+          "month": "Marzo 2026",
+          "periodStart": "2026-02-21T04:00:00.000Z",
+          "periodEnd": "2026-03-20T03:59:59.000Z",
+          "issuedAt": "2026-03-21T15:00:00.000Z",
+          "dueAt": "2026-04-05T03:59:59.000Z",
+          "meterStart": 9700,
+          "meterEnd": 9950,
+          "consumptionKwh": 250,
+          "tariffPerKwh": 0.82,
+          "fixedCharge": 17.9,
+          "publicLightingCharge": 7.5,
+          "amount": 230.4,
+          "status": "pending"
+        },
+        {
+          "id": "debt-0000-2025-12",
+          "concept": "Consumo (Diciembre 2025)",
+          "month": "Diciembre 2025",
+          "periodStart": "2025-11-21T04:00:00.000Z",
+          "periodEnd": "2025-12-20T03:59:59.000Z",
+          "issuedAt": "2025-12-21T15:00:00.000Z",
+          "dueAt": "2026-01-05T03:59:59.000Z",
+          "meterStart": 9200,
+          "meterEnd": 9455,
+          "consumptionKwh": 255,
+          "tariffPerKwh": 0.79,
+          "fixedCharge": 17.9,
+          "publicLightingCharge": 7.2,
+          "amount": 226.6,
+          "status": "paid",
+          "paidAt": "2026-01-04T12:00:00.000Z"
+        },
+        {
+          "id": "debt-0000-2025-11",
+          "concept": "Consumo (Noviembre 2025)",
+          "month": "Noviembre 2025",
+          "periodStart": "2025-10-21T04:00:00.000Z",
+          "periodEnd": "2025-11-20T03:59:59.000Z",
+          "issuedAt": "2025-11-21T15:00:00.000Z",
+          "dueAt": "2025-12-06T03:59:59.000Z",
+          "meterStart": 8950,
+          "meterEnd": 9200,
+          "consumptionKwh": 250,
+          "tariffPerKwh": 0.77,
+          "fixedCharge": 17.9,
+          "publicLightingCharge": 7.1,
+          "amount": 217.5,
+          "status": "paid",
+          "paidAt": "2025-12-05T17:15:00.000Z"
+        }
+      ]
+    },
+    {
+      "accountCode": "5678",
+      "profile": {
+        "fullName": "Daniela Flores Arce",
+        "neighborhood": "Villa Fatima - La Paz",
+        "serviceType": "Energia electrica residencial"
+      },
+      "debts": [
+        {
+          "id": "debt-5678-2026-04",
+          "concept": "Consumo (Abril 2026)",
+          "month": "Abril 2026",
+          "periodStart": "2026-03-21T04:00:00.000Z",
+          "periodEnd": "2026-04-20T03:59:59.000Z",
+          "issuedAt": "2026-04-21T15:00:00.000Z",
+          "dueAt": "2026-05-06T03:59:59.000Z",
+          "meterStart": 15120,
+          "meterEnd": 15508,
+          "consumptionKwh": 388,
+          "tariffPerKwh": 0.88,
+          "fixedCharge": 18.4,
+          "publicLightingCharge": 9.4,
+          "amount": 369.24,
+          "status": "pending"
+        },
+        {
+          "id": "debt-5678-2025-12",
+          "concept": "Consumo (Diciembre 2025)",
+          "month": "Diciembre 2025",
+          "periodStart": "2025-11-21T04:00:00.000Z",
+          "periodEnd": "2025-12-20T03:59:59.000Z",
+          "issuedAt": "2025-12-21T15:00:00.000Z",
+          "dueAt": "2026-01-05T03:59:59.000Z",
+          "meterStart": 14390,
+          "meterEnd": 14720,
+          "consumptionKwh": 330,
+          "tariffPerKwh": 0.8,
+          "fixedCharge": 18.4,
+          "publicLightingCharge": 8.4,
+          "amount": 290.8,
+          "status": "paid",
+          "paidAt": "2026-01-04T13:20:00.000Z"
+        },
+        {
+          "id": "debt-5678-2025-11",
+          "concept": "Consumo (Noviembre 2025)",
+          "month": "Noviembre 2025",
+          "periodStart": "2025-10-21T04:00:00.000Z",
+          "periodEnd": "2025-11-20T03:59:59.000Z",
+          "issuedAt": "2025-11-21T15:00:00.000Z",
+          "dueAt": "2025-12-06T03:59:59.000Z",
+          "meterStart": 14050,
+          "meterEnd": 14390,
+          "consumptionKwh": 340,
+          "tariffPerKwh": 0.79,
+          "fixedCharge": 18.4,
+          "publicLightingCharge": 8.2,
+          "amount": 295.2,
+          "status": "paid",
+          "paidAt": "2025-12-03T14:30:00.000Z"
+        }
+      ]
+    }
+  ]
+}

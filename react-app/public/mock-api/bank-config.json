@@ -1,0 +1,7 @@
+{
+  "merchantName": "Empresa Electrica Demo Bolivia",
+  "merchantAccount": "646180157045612389",
+  "currency": "BOB",
+  "expiresInMinutes": 8,
+  "amountOptions": [129.5, 240, 389.99, 525, 1120.45]
+}
