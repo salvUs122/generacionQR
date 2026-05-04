@@ -4,12 +4,19 @@ import { formatBoliviaDate, formatBoliviaDateTime } from '../../utils/boliviaDat
 import { getReleasedPendingDebtIds } from '../../utils/debtReleaseRules'
 import './QrPaymentView.css'
 
-export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment, boliviaNow }) {
+export function QrPaymentView({
+  debts,
+  currencyFormatter,
+  onConfirmPayment,
+  boliviaNow,
+  onOpenReceipts,
+}) {
   const [selectedIds, setSelectedIds] = useState([])
   const [qrImage, setQrImage] = useState('')
   const [paymentReference, setPaymentReference] = useState('')
   const [qrIssuedAt, setQrIssuedAt] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const pendingDebts = useMemo(
@@ -101,11 +108,22 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment, boli
 
   const confirmPayment = () => {
     if (!selectedDebts.length) return
-    onConfirmPayment(selectedDebts.map((debt) => debt.id))
+    const wasConfirmed = onConfirmPayment({
+      selectedIds: selectedDebts.map((debt) => debt.id),
+      reference: paymentReference,
+    })
+
+    if (!wasConfirmed) {
+      setErrorMessage('No se pudo confirmar el pago. Genera el QR nuevamente e intenta otra vez.')
+      return
+    }
+
     setSelectedIds([])
     setQrImage('')
     setPaymentReference('')
     setQrIssuedAt('')
+    setErrorMessage('')
+    setShowSuccessModal(true)
   }
 
   return (
@@ -221,6 +239,43 @@ export function QrPaymentView({ debts, currencyFormatter, onConfirmPayment, boli
       </section>
 
       {errorMessage ? <p className="qr-view__error">{errorMessage}</p> : null}
+
+      {showSuccessModal ? (
+        <section className="qr-success-modal" role="dialog" aria-modal="true" aria-labelledby="payment-ok-title">
+          <div className="qr-success-modal__backdrop" onClick={() => setShowSuccessModal(false)} />
+          <article className="qr-success-modal__content">
+            <h3 id="payment-ok-title" className="qr-success-modal__title">
+              <span role="img" aria-label="bien">
+                ✅
+              </span>{' '}
+              Pago exitoso
+            </h3>
+            <p>Tu pago fue registrado correctamente.</p>
+            <p>
+              Revisa la facturacion en <strong>Recibos</strong>. Desde ahi podras descargar el recibo en PDF.
+            </p>
+            <div className="qr-success-modal__actions">
+              <button
+                type="button"
+                className="qr-success-modal__button"
+                onClick={() => {
+                  setShowSuccessModal(false)
+                  onOpenReceipts?.()
+                }}
+              >
+                Ir a Recibos
+              </button>
+              <button
+                type="button"
+                className="qr-success-modal__button qr-success-modal__button--ghost"
+                onClick={() => setShowSuccessModal(false)}
+              >
+                Cerrar
+              </button>
+            </div>
+          </article>
+        </section>
+      ) : null}
     </section>
   )
 }

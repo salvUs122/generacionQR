@@ -16,13 +16,29 @@
 
 .dashboard__header h1 {
   margin: 0;
-  color: #0f4c5f;
+  color: #1A1A1A;
   font-size: clamp(1.5rem, 2.8vw, 2rem);
 }
 
 .dashboard__header p {
   margin: 8px 0 0;
-  color: #36667a;
+  color: #666;
+}
+
+.dashboard__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.dashboard__logo {
+  width: clamp(74px, 8vw, 96px);
+  height: auto;
+  border-radius: 10px;
+  background: #fff;
+  padding: 4px;
+  box-shadow: 0 10px 16px rgba(26, 26, 26, 0.2);
 }
 
 .dashboard__meta {
@@ -38,7 +54,7 @@
 }
 
 .dashboard__kpis article {
-  border: 1px solid #d8e9f2;
+  border: 1px solid #FFF9F2;
   border-radius: 14px;
   padding: 10px;
   background: rgba(255, 255, 255, 0.75);
@@ -53,7 +69,7 @@
 .dashboard__kpis strong {
   margin-top: 2px;
   display: block;
-  color: #0f4c5f;
+  color: #1A1A1A;
   font-size: 1.1rem;
 }
 
@@ -68,7 +84,7 @@
   padding: 20px;
   text-align: left;
   background: rgba(255, 255, 255, 0.96);
-  border: 1px solid #d3e7f1;
+  border: 1px solid #E0D5C7;
   box-shadow: 0 18px 30px -22px rgba(0, 44, 74, 0.35);
   transition: transform 0.2s ease;
 }
@@ -87,7 +103,7 @@
 
 .info-card h2 {
   margin: 0;
-  color: #113f52;
+  color: #1A1A1A;
   font-size: 1.08rem;
 }
 
@@ -103,7 +119,7 @@
   border-radius: 12px;
   background: #f2fafe;
   color: #194f63;
-  border-left: 4px solid #2e90aa;
+  border-left: 4px solid #F0D060;
 }
 
 .pending-list {
@@ -113,7 +129,7 @@
 }
 
 .pending-item {
-  border: 1px solid #d5e8f2;
+  border: 1px solid #FFF9F2;
   border-radius: 12px;
   padding: 11px;
   background: linear-gradient(180deg, #f9fcfe, #f4fafd);
@@ -128,11 +144,11 @@
 
 .pending-item__month {
   font-weight: 700;
-  color: #1a5369;
+  color: #1A1A1A;
 }
 
 .pending-item strong {
-  color: #113f52;
+  color: #1A1A1A;
 }
 
 .pending-list__empty {
@@ -170,3 +186,11 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 768px) {
+  .dashboard__heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

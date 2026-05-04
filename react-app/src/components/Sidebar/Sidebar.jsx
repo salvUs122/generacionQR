@@ -4,6 +4,7 @@ export function Sidebar({ activeView, onChangeView, onLogout, profileName }) {
   return (
     <aside className="sidebar">
       <div className="sidebar__top">
+        <img className="sidebar__logo" src="/Logo.jpeg" alt="Logo del portal electrico" />
         <p className="sidebar__eyebrow">energia electrica</p>
         <h2 className="sidebar__title">Portal cliente</h2>
         <p className="sidebar__profile">{profileName}</p>
@@ -34,6 +35,14 @@ export function Sidebar({ activeView, onChangeView, onLogout, profileName }) {
         >
           <span className="sidebar__item-icon">03</span>
           <span>Pagos QR</span>
+        </button>
+        <button
+          className={`sidebar__item ${activeView === 'receipts' ? 'sidebar__item--active' : ''}`}
+          type="button"
+          onClick={() => onChangeView('receipts')}
+        >
+          <span className="sidebar__item-icon">04</span>
+          <span>Recibos</span>
         </button>
       </nav>
 

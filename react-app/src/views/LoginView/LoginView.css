@@ -6,13 +6,13 @@
   place-items: center;
   padding: 20px;
   background:
-    radial-gradient(circle at 16% 18%, rgba(120, 176, 208, 0.35), transparent 34%),
-    radial-gradient(circle at 88% 90%, rgba(74, 130, 157, 0.2), transparent 32%),
-    linear-gradient(145deg, #d2e9f7 0%, #b9deef 100%);
+    radial-gradient(circle at 16% 18%, rgba(200, 185, 160, 0.35), transparent 34%),
+    radial-gradient(circle at 88% 90%, rgba(180, 170, 150, 0.2), transparent 32%),
+    linear-gradient(145deg, #FFF9F2 0%, #FFF9F2 100%);
 }
 
 .login-card {
-  width: min(920px, 100%);
+  width: min(560px, 100%);
   border-radius: 32px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.95);
@@ -23,10 +23,25 @@
 }
 
 .login-card__header {
-  background: linear-gradient(135deg, #0f4c5f, #1b708b);
+  background: linear-gradient(135deg, #1A1A1A, #2A2A20);
   color: #fff;
   padding: 28px 28px 24px;
   text-align: left;
+}
+
+.login-card__header-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-card__logo {
+  width: 64px;
+  height: auto;
+  border-radius: 10px;
+  background: #fff;
+  padding: 4px;
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.28);
 }
 
 .login-card__tag {
@@ -39,7 +54,7 @@
 
 .login-card__header h1 {
   margin: 8px 0 4px;
-  font-size: 2rem;
+  font-size: 1.7rem;
   color: #fff;
 }
 
@@ -62,23 +77,27 @@
   display: grid;
   gap: 6px;
   text-align: left;
-  color: #1c5d73;
+  color: #333333;
   font-size: 0.88rem;
   font-weight: 700;
 }
 
 .login-field input {
-  border: 1px solid #cfe2ec;
+  border: 1px solid #E0D5C7;
   border-radius: 14px;
   padding: 12px;
   font: inherit;
-  color: #0f3d4d;
+  color: #333333;
   background: #fdfefe;
+}
+
+.login-field input[type='date'] {
+  color-scheme: light;
 }
 
 .login-field input:focus {
   outline: 3px solid rgba(15, 76, 95, 0.18);
-  border-color: #1a6780;
+  border-color: #F0D060;
 }
 
 .login-error {
@@ -106,7 +125,7 @@
   font-weight: 700;
   cursor: pointer;
   color: #fff;
-  background: linear-gradient(135deg, #0f4c5f, #1c7591);
+  background: linear-gradient(135deg, #1A1A1A, #2A2A20);
   box-shadow: 0 10px 18px rgba(15, 76, 95, 0.25);
 }
 
@@ -122,14 +141,14 @@
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  color: #0f4c5f;
-  background: #e7f2f7;
+  color: #1A1A1A;
+  background: #FFF9F2;
 }
 
 .login-hint {
   margin: 4px 0 0;
   font-size: 0.8rem;
-  color: #4d7483;
+  color: #999;
   text-align: left;
 }
 
@@ -150,3 +169,6 @@
     transform: translateY(0);
   }
 }
+
+
+

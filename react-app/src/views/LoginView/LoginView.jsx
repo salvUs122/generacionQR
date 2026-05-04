@@ -4,7 +4,15 @@ import './LoginView.css'
 const DEFAULT_FORM = {
   accountCode: '1234',
   ci: '87654321',
-  birthDate: '15/07/1990',
+  birthDate: '1990-07-15',
+}
+
+function toCredentialsBirthDate(value) {
+  const normalized = String(value ?? '').trim()
+  const match = normalized.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (!match) return normalized
+  const [, year, month, day] = match
+  return `${day}/${month}/${year}`
 }
 
 export function LoginView({ onLogin, onBack }) {
@@ -25,7 +33,10 @@ export function LoginView({ onLogin, onBack }) {
     setErrorMessage('')
 
     try {
-      await onLogin(form)
+      await onLogin({
+        ...form,
+        birthDate: toCredentialsBirthDate(form.birthDate),
+      })
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'No se pudo iniciar sesion con esos datos.'
@@ -39,7 +50,10 @@ export function LoginView({ onLogin, onBack }) {
     <main className="login-page">
       <section className="login-card">
         <div className="login-card__header">
-          <p className="login-card__tag">Portal electrico</p>
+          <div className="login-card__header-top">
+            <img className="login-card__logo" src="/Logo.jpeg" alt="Logo del portal electrico" />
+            <p className="login-card__tag">Portal electrico</p>
+          </div>
           <h1>Ingresa a tu cuenta de energia</h1>
           <p>Usa Codigo de Cuenta, CI y Fecha de Nacimiento.</p>
         </div>
@@ -71,10 +85,9 @@ export function LoginView({ onLogin, onBack }) {
             <label className="login-field">
               Fecha de Nacimiento
               <input
-                type="text"
+                type="date"
                 value={form.birthDate}
                 onChange={onChange('birthDate')}
-                placeholder="dd/mm/aaaa"
                 autoComplete="off"
               />
             </label>

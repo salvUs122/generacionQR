@@ -5,7 +5,7 @@ export function LandingView({ onContinue }) {
     <main className="landing">
       <section className="landing__hero">
         <div className="landing__hero-grid">
-          <div>
+          <div className="landing__hero-content">
             <p className="landing__eyebrow">portal de energia electrica</p>
             <h1 className="landing__title">Gestiona tu consumo electrico y paga con QR</h1>
             <p className="landing__subtitle">Rapido, claro y 100% enfocado en tu cuenta.</p>
@@ -25,11 +25,8 @@ export function LandingView({ onContinue }) {
           </div>
 
           <aside className="landing__visual-card" aria-hidden="true">
-            <div className="landing__meter">
-              <span className="landing__bar landing__bar--1" />
-              <span className="landing__bar landing__bar--2" />
-              <span className="landing__bar landing__bar--3" />
-              <span className="landing__bar landing__bar--4" />
+            <div className="landing__logo-wrap">
+              <img className="landing__logo--spin" src="/Logo.jpeg" alt="" />
             </div>
           </aside>
         </div>

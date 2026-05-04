@@ -9,14 +9,17 @@ export function DashboardView({ profile, pendingDebts, currencyFormatter, bolivi
   return (
     <section className="dashboard">
       <header className="dashboard__header">
-        <div>
-          <h1>Dashboard electrico</h1>
-          <p>
-            Cuenta {profile?.accountCode ?? '--'} - {profile?.serviceType ?? 'Energia electrica'}
-          </p>
-          <p className="dashboard__meta">
-            Hora Bolivia: <strong>{formatBoliviaDateTime(boliviaNow)}</strong>
-          </p>
+        <div className="dashboard__heading">
+          <div>
+            <h1>Dashboard electrico</h1>
+            <p>
+              Cuenta {profile?.accountCode ?? '--'} - {profile?.serviceType ?? 'Energia electrica'}
+            </p>
+            <p className="dashboard__meta">
+              Hora Bolivia: <strong>{formatBoliviaDateTime(boliviaNow)}</strong>
+            </p>
+          </div>
+          <img className="dashboard__logo" src="/Logo.jpeg" alt="Logo del portal electrico" />
         </div>
 
         <div className="dashboard__kpis">

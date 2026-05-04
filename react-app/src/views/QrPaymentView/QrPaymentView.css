@@ -6,7 +6,7 @@
 }
 
 .qr-view__header {
-  border: 1px solid #d4e7f1;
+  border: 1px solid #E0D5C7;
   border-radius: 26px;
   padding: clamp(16px, 2vw, 24px);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(242, 250, 254, 0.95));
@@ -17,19 +17,19 @@
 .qr-view__title {
   margin: 0;
   font-size: clamp(1.45rem, 2.6vw, 2rem);
-  color: #0f4c5f;
+  color: #1A1A1A;
 }
 
 .qr-view__subtitle {
   margin-top: 8px;
-  color: #36667a;
+  color: #666;
 }
 
 .payment-card {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
   gap: 18px;
-  border: 1px solid #d3e7f0;
+  border: 1px solid #FFF9F2;
   border-radius: 24px;
   padding: 18px;
   text-align: left;
@@ -65,7 +65,7 @@
 .payment-card__selector-head h2 {
   margin: 0;
   font-size: 1.15rem;
-  color: #0f4c5f;
+  color: #1A1A1A;
 }
 
 .payment-card__selector-head span {
@@ -73,7 +73,7 @@
   padding: 5px 11px;
   border-radius: 999px;
   background: #e4f4fb;
-  color: #246278;
+  color: #F0D060;
   font-size: 0.78rem;
   font-weight: 700;
 }
@@ -81,7 +81,7 @@
 .payment-card__summary {
   margin-top: 10px;
   border-radius: 12px;
-  border: 1px solid #d8eaf3;
+  border: 1px solid #FFE9B3;
   background: #f3fafe;
   padding: 10px;
   display: flex;
@@ -92,12 +92,12 @@
 
 .payment-card__summary p {
   margin: 0;
-  color: #4a7080;
+  color: #666;
   font-size: 0.84rem;
 }
 
 .payment-card__summary strong {
-  color: #0f4c5f;
+  color: #1A1A1A;
 }
 
 .debt-list {
@@ -112,7 +112,7 @@
   grid-template-columns: 20px 1fr auto;
   align-items: center;
   gap: 10px;
-  border: 1px solid #d5e8f2;
+  border: 1px solid #FFF9F2;
   border-radius: 12px;
   padding: 10px;
   background: linear-gradient(180deg, #f9fcff, #f4fafd);
@@ -145,17 +145,17 @@
 
 .debt-item__text span {
   font-size: 0.8rem;
-  color: #567787;
+  color: #999;
 }
 
 .debt-item__due {
   font-size: 0.76rem;
-  color: #7b5c23;
+  color: #8B6F00;
 }
 
 .debt-item__text .debt-item__lock {
   font-size: 0.74rem;
-  color: #8a2d2d;
+  color: #8B6F00;
 }
 
 .payment-card__total {
@@ -163,7 +163,7 @@
   border-radius: 12px;
   padding: 10px;
   background: #e6f3f8;
-  color: #184e62;
+  color: #3A3A20;
 }
 
 .payment-card__button {
@@ -173,7 +173,7 @@
   font: inherit;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(135deg, #0f4c5f, #1a718d);
+  background: linear-gradient(135deg, #1A1A1A, #2A2A20);
   cursor: pointer;
   box-shadow: 0 10px 18px rgba(15, 76, 95, 0.24);
 }
@@ -212,12 +212,12 @@
   padding: 8px;
   border-radius: 10px;
   background: #e6f3f8;
-  color: #184e62;
+  color: #3A3A20;
   font-size: 0.85rem;
 }
 
 .history-card {
-  border: 1px solid #d3e7f0;
+  border: 1px solid #FFF9F2;
   border-radius: 24px;
   padding: 18px;
   text-align: left;
@@ -227,7 +227,7 @@
 
 .history-card h2 {
   margin: 0;
-  color: #0f4c5f;
+  color: #1A1A1A;
   font-size: 1.2rem;
 }
 
@@ -278,13 +278,78 @@
 
 .history-item p {
   margin: 4px 0 0;
-  color: #567787;
+  color: #999;
   font-size: 0.82rem;
 }
 
 .history-empty {
   margin-top: 10px;
   color: #527281;
+}
+
+.qr-success-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.qr-success-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 36, 56, 0.42);
+}
+
+.qr-success-modal__content {
+  position: relative;
+  width: min(100%, 500px);
+  border: 1px solid #cbe2ed;
+  border-radius: 18px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 28px 40px -24px rgba(0, 35, 57, 0.46);
+  display: grid;
+  gap: 10px;
+}
+
+.qr-success-modal__title {
+  margin: 0;
+  color: #1A1A1A;
+  font-size: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qr-success-modal__content p {
+  margin: 0;
+  color: #666;
+}
+
+.qr-success-modal__actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.qr-success-modal__button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #1A1A1A, #2A2A20);
+  cursor: pointer;
+}
+
+.qr-success-modal__button--ghost {
+  color: #1A1A1A;
+  background: #e7f2f7;
 }
 
 @media (max-width: 1100px) {
@@ -327,3 +392,6 @@
     transform: translateY(0);
   }
 }
+
+
+
