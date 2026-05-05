@@ -127,7 +127,7 @@ function App() {
 
   const handleConfirmPayment = ({ selectedIds, reference }) => {
     const paidAt = new Date().toISOString()
-    const releasedPendingIds = getReleasedPendingDebtIds(debts)
+    const releasedPendingIds = getReleasedPendingDebtIds(debts, { virtualPaidIds: selectedIds })
     const selectedReleasedIds = new Set(selectedIds.filter((id) => releasedPendingIds.has(id)))
     const selectedDebts = debts.filter(
       (debt) => selectedReleasedIds.has(debt.id) && debt.status === 'pending',

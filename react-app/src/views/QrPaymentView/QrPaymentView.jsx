@@ -29,14 +29,19 @@ export function QrPaymentView({
     [debts],
   )
 
-  const releasedPendingIds = useMemo(() => getReleasedPendingDebtIds(debts), [debts])
+  const releasedPendingIds = useMemo(
+    () => getReleasedPendingDebtIds(debts, { virtualPaidIds: selectedIds }),
+    [debts, selectedIds],
+  )
+
+  const selectedReleasedIdSet = useMemo(
+    () => new Set(selectedIds.filter((debtId) => releasedPendingIds.has(debtId))),
+    [selectedIds, releasedPendingIds],
+  )
 
   const selectedDebts = useMemo(
-    () =>
-      pendingDebts.filter(
-        (debt) => selectedIds.includes(debt.id) && releasedPendingIds.has(debt.id),
-      ),
-    [pendingDebts, selectedIds, releasedPendingIds],
+    () => pendingDebts.filter((debt) => selectedReleasedIdSet.has(debt.id)),
+    [pendingDebts, selectedReleasedIdSet],
   )
 
   const selectedTotal = useMemo(
@@ -59,9 +64,13 @@ export function QrPaymentView({
     setPaymentReference('')
     setQrIssuedAt('')
     setErrorMessage('')
-    setSelectedIds((prev) =>
-      prev.includes(debtId) ? prev.filter((id) => id !== debtId) : [...prev, debtId],
-    )
+    setSelectedIds((prev) => {
+      const releasedSelection = prev.filter((selectedId) => releasedPendingIds.has(selectedId))
+      if (releasedSelection.includes(debtId)) {
+        return releasedSelection.filter((id) => id !== debtId)
+      }
+      return [...releasedSelection, debtId]
+    })
   }
 
   const generateQr = async () => {
@@ -144,7 +153,10 @@ export function QrPaymentView({
           </div>
 
           <div className="payment-card__summary">
-            <p>Solo se libera una deuda si los 2 pagos anteriores estan pagados.</p>
+            <p>
+              Al seleccionar una deuda, tambien puedes habilitar y pagar el siguiente mes en la misma
+              operacion.
+            </p>
             <strong>{currencyFormatter.format(selectedTotal)}</strong>
           </div>
 
@@ -157,7 +169,7 @@ export function QrPaymentView({
                   <label className={`debt-item ${isReleased ? '' : 'debt-item--locked'}`} key={debt.id}>
                     <input
                       type="checkbox"
-                      checked={selectedIds.includes(debt.id) && isReleased}
+                      checked={selectedReleasedIdSet.has(debt.id) && isReleased}
                       disabled={!isReleased}
                       onChange={() => toggleDebt(debt.id)}
                     />
@@ -169,7 +181,7 @@ export function QrPaymentView({
                       <span className="debt-item__due">Vence: {formatBoliviaDate(debt.dueAt)}</span>
                       {!isReleased ? (
                         <span className="debt-item__lock">
-                          Bloqueada hasta que los 2 pagos anteriores esten pagados.
+                          Bloqueada hasta que los 2 pagos anteriores esten pagados o seleccionados.
                         </span>
                       ) : null}
                     </span>
